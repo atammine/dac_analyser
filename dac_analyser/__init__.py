@@ -1,9 +1,10 @@
 """
 ============
-Oscilloscope
+DAC_analyser
 ============
 
-Plots continuous or sampled time-domain signals.
+Calculates the INL and DNL of a given input signal
+and plots the INL curve
 
 """
 import os
@@ -15,14 +16,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.ticker as mtick
 
-
 from thesdk import *
 
 import pdb
 
 class dac_analyser(thesdk):
     """
-
     Attributes
     ----------
     IOS.Members['in'].Data: ndarray, list(ndarray)
@@ -30,6 +29,16 @@ class dac_analyser(thesdk):
     plot : bool, default True
         Should the figure be drawn or not? True -> figure is drawn, False ->
         figure not drawn. 
+    xlabel : string, default "Input code"
+        The xlabel of the figure
+    ylabel : string, default "INL (LSB)"
+        The ylabel of the figure
+    annotate : bool, default True
+        Add maximum INL and maximum DNL to the INL curve figure
+    sciformat : bool, default True
+        Change the y-axis and annotation values to scientific format (e.g. 1e-02)
+    set_ylim : bool, default True
+        Set the ylimits of the curve to -1.5LSB - 1.5LSB
     """
     @property
     def _classfile(self):
@@ -42,7 +51,6 @@ class dac_analyser(thesdk):
         self.signames = []
         self.xlabel = 'Input code'
         self.ylabel = 'INL (LSB)'
-        self.bits = False
         self.annotate = True
         self.sciformat = True
         self.set_ylim = True
@@ -70,6 +78,8 @@ class dac_analyser(thesdk):
         This module assumes:
 
         - Data is given as ascending values from LSB->MSB
+
+        - Only one value per step
         '''
         signal = self.IOS.Members['in'].Data
         lsb_array = np.linspace(np.min(signal),np.max(signal),

@@ -117,6 +117,8 @@ class dac_analyser(thesdk):
                         bbox=dict(boxstyle='square,pad=0',fc='#ffffffa0',ec='none'))
             if self.set_ylim:
                 plt.ylim((-1.5*inl_max,1.5*inl_max))
+            if len(code) < 10:
+                plt.xticks(np.arange(np.min(code),np.max(code)+1,1.0))
             plt.show(block=False)
             return inl, dnl
         else:

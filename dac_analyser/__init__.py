@@ -86,9 +86,9 @@ class dac_analyser(thesdk):
                 num=len(signal),endpoint=True)
         lsb_step = np.diff(lsb_array)[0]
         inl = (signal-lsb_array)/lsb_step
-        inl_max = np.max(inl)
+        inl_max = np.max(np.abs(inl))
         dnl = np.diff(signal)/lsb_step - 1
-        dnl_max = np.max(dnl)
+        dnl_max = np.max(np.abs(dnl))
 
         # Plot inl:
         code = np.arange(0,len(signal))

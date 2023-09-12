@@ -98,7 +98,7 @@ class dac_analyser(thesdk):
             plt.plot(code,inl)
             plt.xlabel(self.xlabel)
             plt.ylabel(self.ylabel)
-            if self.sciformat:
+            if self.sciformat and inl_max < 0.01:
                 text+='Max INL = {:.2e}\n'.format(inl_max)
                 text+='Max DNL = {:.2e}'.format(dnl_max)
                 self.print_log(type='I',msg=f'Maximun INL is {inl_max}')
